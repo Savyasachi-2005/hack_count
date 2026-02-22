@@ -76,7 +76,14 @@ export default function useTimer() {
   // ── Controls ──
   const toggle = useCallback(() => {
     if (finished || locked) return
-    setRunning(r => !r)
+    setRunning(r => {
+      const newRunning = !r
+      // Auto-lock when starting the timer
+      if (newRunning) {
+        setLocked(true)
+      }
+      return newRunning
+    })
   }, [finished, locked])
 
   const reset = useCallback(() => {
